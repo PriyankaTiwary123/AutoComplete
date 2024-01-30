@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Autocomplete from "./components/AutoComplete";
 
-function App() {
+const App: React.FC = () => {
+  const suggestions = ['priyanka', 'Rishikesh', 'John', 'marry', 'Niru'];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="bg-white p-8 rounded-md shadow-md">
+      <h1 className="text-2xl font-bold mb-4">AutoComplete Search</h1>
+      <Autocomplete suggestions={suggestions} />
     </div>
+  </div>
   );
-}
+};
 
 export default App;
