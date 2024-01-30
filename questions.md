@@ -183,10 +183,10 @@ The code snippets for this already explained while answering question 1.
 
 const MyComponent = (data) => {
   const data = [1,2,3,4,5,6,7];
-  const doubleTheValue = (data) => {
-    return data.map(item => item * 2);
+  const sqrRoot = (data) => {
+    return data.map(item => Math.sqrt(item));
   }
-  const memoizedResult = useMemo(() => doubleTheValue(data), [data]);
+  const memoizedResult = useMemo(() => sqrRoot(data), [data]);
   return <div>{memoizedResult}</div>;
 };
 ```
@@ -214,8 +214,99 @@ const MyComponent = () => {
 
  --------------------------------------------------------------------------------------------------------------------------------
 
+# 6.Give 3 examples of the HOC pattern.
+ --------------------------------------------------------------------------------------------------------------------------------
 
+# 8. How many arguments does setState take and why is it async.
 
+SetState can take 2 arguments which are 
+`1. newState : This can be either an `Object` or a `function` with prevState as a parameter. If its an Object then react will perform shallow merge.`
+`2. callback: This is an optional argument and can be executed once the state has been updated and component has been re-rendered`.
+```javascript
+setState(object | (prevState: object) => object, callback?: () => void)
+```
+SetState is asyn because because of the single threaded nature of Javascript. React make sure that its not blocking the main thread and batches all state changes into single update. It uses the event loop and task queue to manage asynchronous tasks.This helps in performance optimization.
 
+ --------------------------------------------------------------------------------------------------------------------------------
+# 9. List the steps needed to migrate a Class to Function Component.
+  First of all we need to import React in function based component contrary to class based where we were extending React.Component.
+  1. Update the class based  syntanx with functional syntax 
+  2. Remove the `render` method and return JSX directly from the function component
+  3. The state variable needs to be declared with `useState` hook  
+  4. Replace the `lifecycle methods` like (componentDidMount, componentDidUpdate, componentWillUnmount) with the `useEffect` hook wherever its needed.
+  5. Access the props directly in the functional component parameter. 
+`
+  ```javascript
+  //Class based component.
+class MyComponent extends React.Component {
+  state = {
+    data: [],
+  };
 
+  componentDidMount() {
+  }
 
+  render() {
+    <div>{this.state.data}</div>
+  }
+}
+
+// Function Component.
+import React, { useEffect, useState } from 'react';
+
+const MyComponent = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+  }, []);
+
+  return (
+    <div>{data}</div>
+  )
+
+};
+```
+--------------------------------------------------------------------------------------------------------------------------------
+# 10. List a few ways styles can be used with components.
+ ### 1. Inline Style
+ ### 2. CSS Modules
+ ```javascript
+
+ .// styles.module.css
+ .style {
+  color: #fff;
+}
+
+// MyComponent.js
+import React from 'react';
+import styles from './styles.module.css';
+
+const MyComponent = () => {
+  return <div className={styles.style}>Lorem Ipsum....</div>;
+};
+```
+### 3. Tailwind CSS( Tailwind is my personal favourite and an example of it is demonstrated in the autocomplete application)
+### 4. Styled Components
+```javascript
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  color: black;
+`;
+
+const ParentComponent = () => {
+  return <Wrapper>Lorem Ipsum....</Wrapper>;
+};
+export default ParentComponent
+```
+### 5. Global Styles 
+
+We can also use some libraries like `Bootsratp` and CSS properties like `flexbox`, `breakpoints` with` media query` to achieve responsiveness. 
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+# 11.How to render an HTML string coming from the server.
+
+There are few motheods to render an HTML string coming from the server :
+1. Using `Dompurify` Library
+2. Using `ReactHtmlParser` library

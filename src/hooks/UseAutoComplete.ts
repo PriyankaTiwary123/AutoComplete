@@ -4,18 +4,18 @@ import { debounce } from "../utils/debounce";
 interface UseAutocompleteOptionsProps {
   api_URL: string;
 }
-const UseAutocomplete = ({api_URL}: UseAutocompleteOptionsProps) => {
+const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchSuggestions = useCallback(
+  const fethchData = useCallback(
     debounce(async (inputVal: String) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${api_URL}?q=${inputVal}`);
+        const response = inputVal && await fetch(`${api_URL}?q=${inputVal}`);
         if (response.ok) {
           const data = await response.json();
           const filtered = data.filter((suggestion: Record<string, string>) =>
@@ -30,21 +30,32 @@ const UseAutocomplete = ({api_URL}: UseAutocompleteOptionsProps) => {
       } finally {
         setLoading(false);
       }
-    }, 3000),
+    }, 1000),
     [api_URL]
   );
 
   useEffect(() => {
     if (inputValue.trim() !== "") {
-      fetchSuggestions(inputValue);
+      fethchData(inputValue);
     } else {
       setFilteredSuggestions([]);
+      setLoading(false);
+      setError(null);
     }
   }, [inputValue]);
 
+  useEffect(() => {
+    return () => {
+      // Cleanup function to reset state when component unmounts
+      setFilteredSuggestions([]);
+      setLoading(false);
+      setError(null);
+    };
+  }, []);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setInputValue(inputValue);
+    setInputValue(() => inputValue);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
