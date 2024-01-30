@@ -1,57 +1,19 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { debounce } from "../utils/debounce";
+import React from "react";
+import UseAutocomplete from "../hooks/UseAutoComplete";
 import FilteredList from "./FilteredList";
 
 interface AutocompleteProps {
-  apiEndpoint: string;
+  api_URL: string;
 }
-const Autocomplete: React.FC<AutocompleteProps> = ({ apiEndpoint }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchSuggestions = useCallback(
-    debounce(async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(`${apiEndpoint}?q=${inputValue}`);
-        if (response.ok) {
-          const data = await response.json();
-          const filtered = data.filter((suggestion: Record<string, string>) =>
-            suggestion.name.toLowerCase().startsWith(inputValue.toLowerCase())
-          );
-          setFilteredSuggestions(filtered);
-        } else {
-          setError("Error fetching suggestions");
-        }
-      } catch (error) {
-        setError("Error fetching suggestions");
-      } finally {
-        setLoading(false);
-      }
-    }, 3000),
-    [inputValue, apiEndpoint]
-  );
-
-  useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchSuggestions();
-    } else {
-      setFilteredSuggestions([]);
-    }
-  }, [inputValue, fetchSuggestions]);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-    setInputValue(inputValue);
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
-    setFilteredSuggestions([]);
-  };
+const Autocomplete: React.FC<AutocompleteProps> = ({ api_URL }) => {
+  const {
+    inputValue,
+    filteredSuggestions,
+    loading,
+    error,
+    handleInputChange,
+    handleSuggestionClick,
+  } = UseAutocomplete({ api_URL });
 
   return (
     <div className="mx-auto mt-8">
@@ -65,8 +27,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ apiEndpoint }) => {
       <FilteredList
         loading={loading}
         error={error}
+        inputValue={inputValue}
         filteredSuggestions={filteredSuggestions}
-        onSuggestedListClick = {handleSuggestionClick}
+        onSuggestedListClick={handleSuggestionClick}
       />
     </div>
   );
