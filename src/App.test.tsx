@@ -1,9 +1,25 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import Autocomplete from "./components/AutoComplete";
+import App from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+jest.mock("./components/AutoComplete", () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    inputValue: "",
+    filteredSuggestions: [],
+    loading: false,
+    error: null,
+    searchCategory: "",
+    handleInputChange: jest.fn(),
+    handleSuggestionClick: jest.fn(),
+  })),
+}));
+
+describe("App Component", () => {
+  it("renders App component with Autocomplete", () => {
+    render(<App />);
+    expect(screen.getByText("AutoComplete Search")).toBeInTheDocument();
+    expect(Autocomplete).toHaveBeenCalled();
+  });
 });

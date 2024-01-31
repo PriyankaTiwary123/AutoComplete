@@ -17,15 +17,15 @@ const FilteredList: React.FC<FilteredListProps> = ({
 }) => {
   const highlightMatch = useMemo(() => {
     const memoizedHighlightMatch = (text: string) => {
-      const index = text.toLowerCase().indexOf(inputValue.toLowerCase());
+      const index = text?.toLowerCase().indexOf(inputValue?.toLowerCase());
       if (index !== -1) {
         return (
           <>
-            {text.substring(0, index)}
+            {text?.substring(0, index)}
             <span className="font-bold text-blue-500">
-              {text.substring(index, index + inputValue.length)}
+              {text?.substring(index, index + inputValue.length)}
             </span>
-            {text.substring(index + inputValue.length)}
+            {text?.substring(index + inputValue.length)}
           </>
         );
       }
@@ -37,7 +37,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   }, [inputValue]);
 
   return (
-    <div>
+    <div role="listbox" aria-labelledby="autocomplete-input" data-testid='filteredList'>
       {loading && <p className="text-gray-500 mt-2">Loading...</p>}
       {error && <p className="text-red-500 mt-2">{error}</p>}  
         <ul className="mt-2">
