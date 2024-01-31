@@ -5,7 +5,7 @@ interface FilteredListProps {
   error: string | null;
   filteredSuggestions: any[];
   inputValue: string;
-  focusedIndex: number | null;
+  focusedIndex?: number | null;
   onSuggestedListClick: (suggestion: Record<any, string>) => void;
 }
 
@@ -18,7 +18,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   onSuggestedListClick,
 }) => {
   const highlightMatch = useMemo(() => {
-    const memoizedHighlightMatch = (text: string) => {
+    const memoizedMatchingText= (text: string) => {
       const index = text?.toLowerCase().indexOf(inputValue?.toLowerCase());
       if (index !== -1) {
         return (
@@ -35,7 +35,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
       return text;
     };
 
-    return memoizedHighlightMatch;
+    return memoizedMatchingText;
   }, [inputValue]);
 
   return (
