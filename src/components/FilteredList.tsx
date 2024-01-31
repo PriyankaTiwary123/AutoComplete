@@ -5,6 +5,7 @@ interface FilteredListProps {
   error: string | null;
   filteredSuggestions: any[];
   inputValue: string;
+  focusedIndex: number | null;
   onSuggestedListClick: (suggestion: Record<any, string>) => void;
 }
 
@@ -13,6 +14,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   error,
   filteredSuggestions,
   inputValue,
+  focusedIndex,
   onSuggestedListClick,
 }) => {
   const highlightMatch = useMemo(() => {
@@ -47,9 +49,11 @@ const FilteredList: React.FC<FilteredListProps> = ({
       <ul className="mt-2">
         {filteredSuggestions.map((suggestion: any, index: any) => (
           <li
-            key={index}
+            key={suggestion.id}
             onClick={() => onSuggestedListClick(suggestion)}
-            className="cursor-pointer hover:bg-gray-100 p-2 border-b border-gray-300"
+            className={`cursor-pointer hover:bg-gray-100 p-2 border-b border-gray-300 ${
+              focusedIndex === index ? "bg-gray-100" : ""
+            }`}
           >
             {highlightMatch(suggestion.name)}
           </li>

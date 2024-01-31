@@ -13,8 +13,10 @@ describe("Autocomplete Component", () => {
       filteredSuggestions: ["Labrador Retriever", "Labrador Mix"],
       loading: false,
       error: null,
+      focusedIndex: null,
       handleInputChange: jest.fn(),
       handleSuggestionClick: jest.fn(),
+      handleKeyDown: jest.fn(),
     });
 
     render(

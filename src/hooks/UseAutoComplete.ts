@@ -7,6 +7,7 @@ interface UseAutocompleteOptionsProps {
 const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedVal, setSelectedVal] = useState<string>("");
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,13 +67,35 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     setFilteredSuggestions([]);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowDown") {
+      setFocusedIndex((prevIndex) =>
+        prevIndex === null || prevIndex === filteredSuggestions.length - 1
+          ? 0
+          : prevIndex + 1
+      );
+    } else if (event.key === "ArrowUp") {
+      setFocusedIndex((prevIndex) =>
+        prevIndex === null || prevIndex === 0
+          ? filteredSuggestions.length - 1
+          : prevIndex - 1
+      );
+    } else if (event.key === "Enter") {
+      if (focusedIndex !== null) {
+        handleSuggestionClick(filteredSuggestions[focusedIndex]);
+      }
+    }
+  };
+
   return {
     inputValue,
     filteredSuggestions,
     loading,
     error,
+    focusedIndex,
     handleInputChange,
     handleSuggestionClick,
+    handleKeyDown,
   };
 };
 
