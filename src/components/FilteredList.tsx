@@ -5,7 +5,7 @@ interface FilteredListProps {
   error: string | null;
   filteredSuggestions: any[];
   inputValue: string;
-  onSuggestedListClick: (suggestion: string) => void;
+  onSuggestedListClick: (suggestion: Record<any, string>) => void;
 }
 
 const FilteredList: React.FC<FilteredListProps> = ({
@@ -37,20 +37,24 @@ const FilteredList: React.FC<FilteredListProps> = ({
   }, [inputValue]);
 
   return (
-    <div role="listbox" aria-labelledby="autocomplete-input" data-testid='filteredList'>
+    <div
+      role="listbox"
+      aria-labelledby="autocomplete-input"
+      data-testid="filteredList"
+    >
       {loading && <p className="text-gray-500 mt-2">Loading...</p>}
-      {error && <p className="text-red-500 mt-2">{error}</p>}  
-        <ul className="mt-2">
-          {filteredSuggestions.map((suggestion: any, index: any) => (
-            <li
-              key={index}
-              onClick={() => onSuggestedListClick(suggestion)}
-              className="cursor-pointer hover:bg-gray-100 p-2 border-b border-gray-300"
-            >
-              {highlightMatch(suggestion.name)}
-            </li>
-          ))}
-        </ul>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+      <ul className="mt-2">
+        {filteredSuggestions.map((suggestion: any, index: any) => (
+          <li
+            key={index}
+            onClick={() => onSuggestedListClick(suggestion)}
+            className="cursor-pointer hover:bg-gray-100 p-2 border-b border-gray-300"
+          >
+            {highlightMatch(suggestion.name)}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -6,20 +6,21 @@ interface UseAutocompleteOptionsProps {
 }
 const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
   const [inputValue, setInputValue] = useState<string>("");
+  const [selectedVal, setSelectedVal] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fethchData = useCallback(
     debounce(async (inputVal: String) => {
-      setLoading(true);
       setError(null);
       try {
-        const response = inputVal && await fetch(`${api_URL}?q=${inputVal}`);
+        setLoading(true);
+        const response = inputVal && (await fetch(`${api_URL}?q=${inputVal}`));
         if (response.ok) {
           const data = await response.json();
           const filtered = data.filter((suggestion: Record<string, string>) =>
-            suggestion.name.toLowerCase().startsWith(inputValue.toLowerCase())
+            suggestion.name.toLowerCase().startsWith(inputVal.toLowerCase())
           );
           setFilteredSuggestions(filtered);
         } else {
@@ -30,12 +31,12 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
       } finally {
         setLoading(false);
       }
-    }, 1000),
+    }, 500),
     [api_URL]
   );
 
   useEffect(() => {
-    if (inputValue.trim() !== "") {
+    if (inputValue.trim() !== "" && selectedVal !== inputValue) {
       fethchData(inputValue);
     } else {
       setFilteredSuggestions([]);
@@ -58,8 +59,10 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     setInputValue(() => inputValue);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
+  const handleSuggestionClick = (suggestion: Record<any, string>) => {
+    const trimmedInputValue = (suggestion?.name ?? "").trim();
+    setInputValue(trimmedInputValue);
+    setSelectedVal(trimmedInputValue);
     setFilteredSuggestions([]);
   };
 
