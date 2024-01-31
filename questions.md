@@ -251,7 +251,7 @@ const i18n = {
   },
 };
 
-function withTranslation(WrappedComponent, translation) {
+const withTranslation=(WrappedComponent, translation)=> {
   // HOC
   return function (props) {
     const [language, setLanguage] = useState("en");
@@ -342,9 +342,11 @@ export default App;
 
 # 8. How many arguments does setState take and why is it async.
 
-SetState can take 2 arguments which are
-`1. newState : This can be either an `Object`or a`function` with prevState as a parameter. If its an Object then react will perform shallow merge.`
-`2. callback: This is an optional argument and can be executed once the state has been updated and component has been re-rendered`.
+SetState can take 2 arguments which are:
+
+1. newState : This can be either an `Object`or a`function` with prevState as a parameter. If its an Object then react will perform shallow merge.
+
+2. callback: This is an optional argument and can be executed once the state has been updated and component has been re-rendered.
 
 ```javascript
 setState(object | (prevState: object) => object, callback?: () => void)
@@ -434,13 +436,13 @@ export default ParentComponent;
 
 ### 5. Global Styles
 
-We can also use some libraries like `Bootsratp` and CSS properties like `flexbox`, `breakpoints` with` media query` to achieve responsiveness.
+Along with CSS types mentioned above we can also use some libraries like `Bootsratp` and CSS properties like `flexbox`, `breakpoints` with` media query` to achieve responsiveness.
 
 ---
 
 # 11.How to render an HTML string coming from the server.
 
-There are few motheods to render an HTML string coming from the server :
+There are few methods to render an HTML string coming from the server :
 
 1. Using `Dompurify` Library
 2. Using `ReactHtmlParser` library
