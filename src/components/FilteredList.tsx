@@ -4,6 +4,7 @@ interface FilteredListProps {
   loading: boolean;
   error: string | null;
   filteredSuggestions: any[];
+  isNoData: boolean;
   inputValue: string;
   focusedIndex?: number | null;
   onSuggestedListClick: (suggestion: Record<any, string>) => void;
@@ -13,6 +14,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   loading,
   error,
   filteredSuggestions,
+  isNoData,
   inputValue,
   focusedIndex,
   onSuggestedListClick,
@@ -49,7 +51,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
       {loading && <p className="text-gray-500 mt-2">Loading...</p>}
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
-      {!loading && !hasSuggestions && inputValue.trim() !== "" && (
+      {!loading && !hasSuggestions && inputValue.trim() !== "" && isNoData && (
         <p className="text-gray-500 mt-2">
           No data found. Please refine your search text
         </p>

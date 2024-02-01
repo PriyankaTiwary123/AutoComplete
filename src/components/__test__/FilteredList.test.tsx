@@ -15,6 +15,7 @@ describe("FilteredList Component", () => {
         loading={false}
         error={null}
         focusedIndex={1}
+        isNoData={false}
         filteredSuggestions={mockSuggestions}
         inputValue="retriever"
         onSuggestedListClick={() => {}}
@@ -44,6 +45,7 @@ describe("FilteredList Component", () => {
       <FilteredList
         loading={false}
         error={null}
+        isNoData={false}
         focusedIndex={1}
         filteredSuggestions={mockSuggestions}
         inputValue="retriever"
@@ -61,6 +63,7 @@ describe("FilteredList Component", () => {
       <FilteredList
         loading={true}
         error={null}
+        isNoData={false}
         focusedIndex={1}
         filteredSuggestions={[]}
         inputValue="retriever"
@@ -77,6 +80,7 @@ describe("FilteredList Component", () => {
       <FilteredList
         loading={false}
         error={errorMessage}
+        isNoData={false}
         focusedIndex={1}
         filteredSuggestions={[]}
         inputValue="retriever"

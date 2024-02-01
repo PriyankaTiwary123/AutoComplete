@@ -15,6 +15,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     filteredSuggestions,
     loading,
     error,
+    isNoData,
     handleInputChange,
     handleSuggestionClick,
     handleKeyDown,
@@ -36,6 +37,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       <FilteredList
         loading={loading}
         error={error}
+        isNoData={isNoData}
         inputValue={inputValue}
         focusedIndex={focusedIndex}
         filteredSuggestions={filteredSuggestions}

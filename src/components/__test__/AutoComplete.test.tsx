@@ -10,9 +10,13 @@ describe("Autocomplete Component", () => {
     const mockUseAutocomplete = jest.spyOn(UseAutocompleteModule, "default");
     mockUseAutocomplete.mockReturnValue({
       inputValue: "Labrador",
-      filteredSuggestions: [{name:"Labrador Retriever"},{name:"Labrador Mix"}],
+      filteredSuggestions: [
+        { name: "Labrador Retriever" },
+        { name: "Labrador Mix" },
+      ],
       loading: false,
       error: null,
+      isNoData: false,
       focusedIndex: null,
       handleInputChange: jest.fn(),
       handleSuggestionClick: jest.fn(),

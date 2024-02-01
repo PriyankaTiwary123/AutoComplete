@@ -12,6 +12,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     Record<string, string>[]
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isNoData, setIsNoData] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   let abortController = new AbortController(); // using this to abort the api call when clearing the input text at once
@@ -26,9 +27,10 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
 
       if (response.status === 200) {
         const data = await response.json();
+        data?.length === 0 ? setIsNoData(true) : setIsNoData(false);
         setFilteredSuggestions(
           data.filter((suggestion: Record<string, string>) =>
-            suggestion.name.toLowerCase().startsWith(inputVal.toLowerCase())
+            suggestion.name.toLowerCase().includes(inputVal.toLowerCase())
           )
         );
         setLoading(false);
@@ -63,6 +65,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     const trimmedInputValue = (suggestion?.name ?? "").trim();
     setInputValue(trimmedInputValue);
     setFilteredSuggestions([]);
+    setIsNoData(false);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -97,6 +100,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     loading,
     error,
     focusedIndex,
+    isNoData,
     handleInputChange,
     handleSuggestionClick,
     handleKeyDown,
