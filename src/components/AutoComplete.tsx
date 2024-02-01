@@ -22,7 +22,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   } = UseAutocomplete({ api_URL });
 
   return (
-    <div className="mx-auto mt-8">
+    <div className="relative">
       <label htmlFor="autocomplete-input">{`Search ${searchCategory}`}</label>
       <input
         className="w-full p-3 mt-5 border border-gray-300 rounded-md focus:outline-none focus:border-gray-300"

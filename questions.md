@@ -1,6 +1,6 @@
 # 1. What is the difference between Component and PureComponent? Give an example where it might break my app.
 
-The difference between normal component and Pure component lies in how they handle updates and re-rendering.
+The difference between normal component and Pure component are as follows:
 `Normal Component`: The Normal component re-renders whenever its render method is called, it does not implement " shouldComponentUpdate" by default which means it will re-render even if the new state has same value as the previous state which further states then if the parent component renders the child component always re-renders.
 
 `Pure Component`: The Pure component performs a shallow comparison between current and the next props and state before deciding to re-render and this avoid unnecessary re-rendering of application.The Pure component helps in performaance optimization by avoiding unecessary re-renders.In functional component Reac.memo does the same job as Pure component in class compoent which is if we wrap our function with React.memo then our function will not re-render if state and props has not changed.
@@ -88,10 +88,12 @@ this.state = {
 ```
 
 ## To address this issue we need to do deep comparison of object value.
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 2. Context + ShouldComponentUpdate might be dangerous. Why is that?
+`Context helps to manage states across application and when the value of state changes then all the components subscribed to this context also renders and if the component also has `ShouldComponentUpdate` for rendering then this context state change might effect/overrides the re-rendering of `ShouldComponentUpdate` `
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 3. Describe 3 ways to pass information from a component to its PARENT.
 
@@ -180,7 +182,7 @@ const ChildComponent = forwardRef((props, ref) => {
 export default ChildComponent;
 ```
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 ## 4. Give 2 ways to prevent components from re-rendering.
 
@@ -201,8 +203,7 @@ const MyComponent = (data) => {
   return <div>{memoizedResult}</div>;
 };
 ```
-
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 ## 5. What is a fragment and why do we need it? Give an example where it might break my app.
 
@@ -227,12 +228,12 @@ const MyComponent = () => {
 
 when we are using CSS selector to give style to the element (mostly nested elements where the style is being given to a particular element) then with frgament in place the structure of DOM changes and the styling of application gets disturb.
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 6.Give 3 examples of the HOC pattern.
 
 1. Translation and Language Switching :
-   HOC can be used to add Translation, internationalization and language switching.
+   HOC can be used to add Translation and language switching.
 
 ```javascript
 import React, { useState } from "react";
@@ -337,6 +338,48 @@ export default App;
 
 --------------------------------------------------------------------------------------------------------------------------------
 # 7.What's the difference in handling exceptions in promises, callbacks and async...await?
+`All the above are used to handle asynchronous operation in javascript but they differ in the way of handling async operations`
+
+### 1. Callbacks: A callback is a function which is passed as an argument to another function. When dealing with multiple async operations it can lead to callback hell (This can freeze the browser) because of nesting of multiple callbacks
+
+```javascript
+let cart = ['iphone11', 'samsungGalaxy', 'One Plus 12']
+createOrder(cart, function(orderId){
+  proceedToPayment(orderId, function(paymentInfo){
+    showOrderSummary(paymentInfo)
+  })
+})
+```
+### 2. Promise: The Promise is an object that holds the value of asynchronous operation.As soon as the promise object is filled with the asyn data upon its successfull completion it attaches itself with the callback function with `.then() method`. 
+Promise has 3 states:
+`1. Pending`
+`2. Fulfilled`
+`3. Rejected`
+Initially the Promise is always in Pending state and as soon as we get the value of the async call the state changes to either fulfilled or Rejected.
+The next async calls only happens once we get the value of previous async call which helps to keep the program in our control and overcomes the issue of callback hell.
+```javascript
+ let promise =  createOrder(cart)
+ promise
+ .then(function(orderId){
+   proceedToPayment(orderId)
+ }).then(function(paymentInfo){
+   showOrderSummary(paymentInfo)
+   })
+ })
+ ```
+### 3. Async Await: The async await handles an asynchronous operation in a synchronous manner and is more readable syntax of handling promise.
+
+```javascript
+const orderManagementSystem = async () => {
+  try {
+    const orderId = await createOrder(cart);
+    const paymentInfo = await proceedToPayment(orderId);
+    showOrderSummary(paymentInfo);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+```
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -344,7 +387,7 @@ export default App;
 
 SetState can take 2 arguments which are:
 
-1. newState : This can be either an `Object`or a`function` with prevState as a parameter. If its an Object then react will perform shallow merge.
+1. newState : This can be either an `Object`or a`function` with prevState as a parameter. If its an Object then react will perform shallow merge and if function then it will compare with prevState and then update the state.
 
 2. callback: This is an optional argument and can be executed once the state has been updated and component has been re-rendered.
 
@@ -354,7 +397,7 @@ setState(object | (prevState: object) => object, callback?: () => void)
 
 SetState is asyn because because of the single threaded nature of Javascript. React make sure that its not blocking the main thread and batches all state changes into single update. It uses the event loop and task queue to manage asynchronous tasks.This helps in performance optimization.
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 9. List the steps needed to migrate a Class to Function Component.
 
@@ -393,7 +436,7 @@ const MyComponent = () => {
 };
 ```
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 10. List a few ways styles can be used with components.
 
@@ -417,7 +460,7 @@ const MyComponent = () => {
 };
 ```
 
-### 3. Tailwind CSS( Tailwind is my personal favourite and an example of it is demonstrated in the autocomplete application)
+### 3. Tailwind CSS( Tailwind is my personal favourite and an example of this is demonstrated in the autocomplete application)
 
 ### 4. Styled Components
 
@@ -438,7 +481,7 @@ export default ParentComponent;
 
 Along with CSS types mentioned above we can also use some libraries like `Bootsratp` and CSS properties like `flexbox`, `breakpoints` with` media query` to achieve responsiveness.
 
----
+---------------------------------------------------------------------------------------------------------------------------------
 
 # 11.How to render an HTML string coming from the server.
 
@@ -447,5 +490,3 @@ There are few methods to render an HTML string coming from the server :
 1. Using `Dompurify` Library
 2. Using `ReactHtmlParser` library
 3. using `dangerouslySetInnerHTML` attribute of HTML element.
-
----

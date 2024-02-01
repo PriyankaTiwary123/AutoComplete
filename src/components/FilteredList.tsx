@@ -18,7 +18,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   onSuggestedListClick,
 }) => {
   const highlightMatch = useMemo(() => {
-    const memoizedMatchingText= (text: string) => {
+    const memoizedMatchingText = (text: string) => {
       const index = text?.toLowerCase().indexOf(inputValue?.toLowerCase());
       if (index !== -1) {
         return (
@@ -43,6 +43,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
       role="listbox"
       aria-labelledby="autocomplete-input"
       data-testid="filteredList"
+      className="max-h-80 overflow-y-auto"
     >
       {loading && <p className="text-gray-500 mt-2">Loading...</p>}
       {error && <p className="text-red-500 mt-2">{error}</p>}
@@ -51,8 +52,8 @@ const FilteredList: React.FC<FilteredListProps> = ({
           <li
             key={suggestion.id}
             onClick={() => onSuggestedListClick(suggestion)}
-            className={`cursor-pointer hover:bg-gray-100 p-2 border-b border-gray-300 ${
-              focusedIndex === index ? "bg-gray-100" : ""
+            className={`cursor-pointer hover:bg-gray-400 hover:text-white p-2 border-b border-gray-300 ${
+              focusedIndex === index ? "bg-gray-400 text-white" : "text-black"
             }`}
           >
             {highlightMatch(suggestion.name)}
