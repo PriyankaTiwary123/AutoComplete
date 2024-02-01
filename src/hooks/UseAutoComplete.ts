@@ -15,10 +15,9 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
   let abortController = new AbortController();// using this to abort the api call when clearing the input text at once
 
   const fetchData = async (inputVal: string) => {
-    setLoading(true);
     setError(null);
-
     try {
+      setLoading(true);
       const response = await fetch(`${api_URL}?q=${inputVal}`, {
         signal: abortController.signal,
       });
@@ -30,6 +29,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
             suggestion.name.toLowerCase().startsWith(inputVal.toLowerCase())
           )
         );
+        setLoading(false);
       } else {
         setError("Error fetching suggestions");
       }
@@ -57,7 +57,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
     debouncedFetchData(currentInputValue);
   };
 
-  const handleSuggestionClick = (suggestion: Record<any, string>) => {
+  const handleSuggestionClick = (suggestion: Record<string, string>) => {
     const trimmedInputValue = (suggestion?.name ?? "").trim();
     setInputValue(trimmedInputValue);
     setFilteredSuggestions([]);
