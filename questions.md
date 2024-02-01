@@ -7,7 +7,7 @@ The difference between normal component and Pure component are as follows:
 
 `Code Snippet Example:`
 
-`Child Components`
+`Child Component`
 
 ```javascript
 import React, { Component } from 'React';
@@ -87,11 +87,11 @@ this.state = {
 };
 ```
 
-## To address this issue we need to do deep comparison of object value.
+ To address this issue we need to do deep comparison of object value.
 ---------------------------------------------------------------------------------------------------------------------------------
 
 # 2. Context + ShouldComponentUpdate might be dangerous. Why is that?
-`Context helps to manage states across application and when the value of state changes then all the components subscribed to this context also renders and if the component also has `ShouldComponentUpdate` for rendering then this context state change might effect/overrides the re-rendering of `ShouldComponentUpdate` `
+Context helps to manage states across application and when the value of state changes then all the components subscribed to this context also renders and if the component also has `ShouldComponentUpdate` for rendering then this context state change might effect/overrides the re-rendering of `ShouldComponentUpdate` `
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -186,10 +186,10 @@ export default ChildComponent;
 
 ## 4. Give 2 ways to prevent components from re-rendering.
 
-`1. Usimg React Pure component for class component or React.memo`
+`1. Using React Pure component for class component or React.memo`
 The code snippets for this already explained while answering question 1.
 
-`2. Usimg UseMemo and UseCallback hooks for functional component`
+`2. Using UseMemo and UseCallback hooks for functional component`
 
 ```javascript
 import React, { useMemo } from "react";
@@ -338,7 +338,7 @@ export default App;
 
 --------------------------------------------------------------------------------------------------------------------------------
 # 7.What's the difference in handling exceptions in promises, callbacks and async...await?
-`All the above are used to handle asynchronous operation in javascript but they differ in the way of handling async operations`
+All the above are used to handle asynchronous operation in javascript but they differ in the way of handling async operations
 
 ### 1. Callbacks: A callback is a function which is passed as an argument to another function. When dealing with multiple async operations it can lead to callback hell (This can freeze the browser) because of nesting of multiple callbacks
 
