@@ -17,6 +17,7 @@ const FilteredList: React.FC<FilteredListProps> = ({
   focusedIndex,
   onSuggestedListClick,
 }) => {
+  const hasSuggestions = filteredSuggestions.length > 0;
   const highlightMatch = useMemo(() => {
     const memoizedMatchingText = (text: string) => {
       const index = text?.toLowerCase().indexOf(inputValue?.toLowerCase());
@@ -47,19 +48,31 @@ const FilteredList: React.FC<FilteredListProps> = ({
     >
       {loading && <p className="text-gray-500 mt-2">Loading...</p>}
       {error && <p className="text-red-500 mt-2">{error}</p>}
-      <ul className="mt-2">
-        {filteredSuggestions.map((suggestion: any, index: any) => (
-          <li
-            key={suggestion.id}
-            onClick={() => onSuggestedListClick(suggestion)}
-            className={`cursor-pointer hover:bg-gray-400 hover:text-white p-2 border-b border-gray-300 ${
-              focusedIndex === index ? "bg-gray-400 text-white" : "text-black"
-            }`}
-          >
-            {highlightMatch(suggestion.name)}
-          </li>
-        ))}
-      </ul>
+
+      {!loading && !hasSuggestions && inputValue.trim() !== "" && (
+        <p className="text-gray-500 mt-2">
+          No data found. Please refine your search text
+        </p>
+      )}
+      {hasSuggestions && (
+        <ul className="mt-2">
+          {filteredSuggestions?.map(
+            (suggestion: Record<string, string>, index: number) => (
+              <li
+                key={suggestion.id}
+                onClick={() => onSuggestedListClick(suggestion)}
+                className={`cursor-pointer hover:bg-gray-400 hover:text-white p-2 border-b border-gray-300 ${
+                  focusedIndex === index
+                    ? "bg-gray-400 text-white"
+                    : "text-black"
+                }`}
+              >
+                {highlightMatch(suggestion.name)}
+              </li>
+            )
+          )}
+        </ul>
+      )}
     </div>
   );
 };

@@ -8,11 +8,13 @@ interface UseAutocompleteOptionsProps {
 const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-  const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<
+    Record<string, string>[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  let abortController = new AbortController();// using this to abort the api call when clearing the input text at once
+  let abortController = new AbortController(); // using this to abort the api call when clearing the input text at once
 
   const fetchData = async (inputVal: string) => {
     setError(null);
@@ -22,7 +24,7 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
         signal: abortController.signal,
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         const data = await response.json();
         setFilteredSuggestions(
           data.filter((suggestion: Record<string, string>) =>
@@ -88,8 +90,6 @@ const UseAutocomplete = ({ api_URL }: UseAutocompleteOptionsProps) => {
       abortController.abort(); //Abort ongoing fetch when the component unmounts//
     };
   }, []);
-
-
 
   return {
     inputValue,
