@@ -1,11 +1,7 @@
 # Getting Started with AutoComplete Application
 
-## Clone the repository
-### `git clone https://github.com/PriyankaTiwary123/AutoComplete.git`
-
-## Change the directory
-### `cd AutoComplete`
-
+## Dowmload the zipped AutoComplete-master
+## Open the terminal and navigate to project directory
 ## Install the dependencies
 ### `npm i`
 
